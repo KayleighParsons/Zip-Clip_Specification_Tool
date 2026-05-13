@@ -1,0 +1,9 @@
+key,label,subtitle,icon,active
+hvac,HVAC / Ductwork,Air handling and ventilation ducts,ti-wind,TRUE
+cable,Cable / Electrical,Cable tray conduit and containment,ti-bolt,TRUE
+pipe,Pipework / Mechanical,M&E pipework and sprinkler,ti-circles-relation,TRUE
+lighting,Lighting,Pendant surface and track lighting,ti-bulb,TRUE
+signage,Signage / Displays,Suspended signs and panels,ti-layout-board,TRUE
+strut,Strut / Support Channel,Strut installation,ti-columns,TRUE
+catenary,Catenary,,,TRUE
+Other / Bespoke,Other / Bespoke,,,TRUE
