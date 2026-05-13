@@ -1,0 +1,9 @@
+setting,Default Value,notes
+default_drops,20,Number of suspension drops pre-filled in calculator
+default_length,3,Drop length in metres
+default_labour_rate,35,Labour rate in GBP per hour
+default_rod_time,25,Threaded rod install time per drop (minutes)
+default_zc_time,8,Zip-Clip install time per drop (minutes)
+default_rod_cost,1.85,Threaded rod material cost per metre (GBP)
+rod_weight_per_m,0.39,Threaded rod weight kg/m (8mm rod)
+wire_weight_per_m,0.015,Wire rope weight kg/m (2mm wire)
