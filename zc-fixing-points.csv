@@ -1,0 +1,9 @@
+key,label,subtitle,icon,active
+concrete,Concrete,Slab or beam above,ti-stack-3,TRUE
+decking,Metal Decking,Profiled steel decking,ti-grid-dots,TRUE
+Wrap-around,Wrap-around,Beams columns and purlins,ti-ruler-2,TRUE
+timber,Timber,Joists rafters and CLT,ti-trees,TRUE
+Catenary,Catenary,,,TRUE
+Purlins,Purlins,,,TRUE
+Service supports,Service supports,,,TRUE
+Seismic & Vibration,Seismic & Vibration,,,TRUE
