@@ -197,6 +197,10 @@ input[type=range]{flex:1;accent-color:var(--orange)}
 }
 
 @media(max-width:600px){
+  .swl-row,.drop-row{flex-wrap:wrap;gap:10px}
+  .swl-row label,.drop-row label{min-width:0;flex-basis:100%}
+  .swl-row input[type=range]{min-width:0}
+  .drop-select{min-width:0;width:100%;max-width:100%}
   .hdr{padding:0 16px;height:52px}
   .hdr-logo{height:28px}
   .stage-btn{padding:12px 10px;font-size:10px;gap:4px}
