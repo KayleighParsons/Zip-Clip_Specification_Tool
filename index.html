@@ -29,6 +29,8 @@ html,body{height:100%;font-family:'Barlow',sans-serif;background:#F5F2EE;color:v
 .stage-btn .num{width:22px;height:22px;border-radius:50%;background:var(--mid);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
 .stage-btn.active .num{background:var(--orange);color:#fff}
 .stage-btn.done .num{background:var(--success-bg);color:var(--success)}
+.stage-btn-tool{margin-left:auto}
+.stage-btn[hidden]{display:none}
 .wrap{max-width:1040px;margin:0 auto;padding:32px 24px}
 .stage{display:none}
 .stage.active{display:block}
@@ -198,6 +200,9 @@ input[type=range]{flex:1;accent-color:var(--orange)}
 
 @media(max-width:600px){
   .swl-row,.drop-row{flex-wrap:wrap;gap:10px}
+  .stage-bar{overflow-x:auto;padding:0 8px}
+  .stage-btn{white-space:nowrap}
+  .stage-btn-tool{margin-left:0}
   .swl-row label,.drop-row label{min-width:0;flex-basis:100%}
   .swl-row input[type=range]{min-width:0}
   .drop-select{min-width:0;width:100%;max-width:100%}
@@ -223,6 +228,7 @@ input[type=range]{flex:1;accent-color:var(--orange)}
   <button class="stage-btn active" onclick="goStage(1)" id="sb1"><span class="num">1</span> Specify</button>
   <button class="stage-btn" onclick="gateStage2()" id="sb2"><span class="num">2</span> Calculate Savings</button>
   <button class="stage-btn" onclick="goStage(3)" id="sb3"><span class="num">3</span> Find Distributor</button>
+  <button class="stage-btn stage-btn-tool" onclick="goStage(4)" id="sb4" hidden><i class="ti ti-columns"></i> ZIP-STRUT Calculator</button>
 </div>
 
 <!-- LEAD GATE OVERLAY -->
@@ -413,6 +419,18 @@ input[type=range]{flex:1;accent-color:var(--orange)}
 </div>
 </div>
 
+<!-- STAGE 4: ZIP-STRUT CALCULATOR -->
+<div class="stage" id="st4">
+<div class="wrap">
+  <div class="nav-bar">
+    <h2>ZIP-STRUT Calculator</h2>
+    <button class="nav-back" onclick="goStage(1)"><i class="ti ti-arrow-left"></i> Back to specifier</button>
+  </div>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Size a ZIP-STRUT system: channel, drops, fixings and accessories.</p>
+  <iframe id="zs-frame" title="ZIP-STRUT Calculator" data-src="https://kayleighparsons.github.io/zipstrut-calculator/ZipStrut_Calculator.html" style="width:100%;min-height:900px;border:0;display:block;background:var(--white)"></iframe>
+</div>
+</div>
+
 <script>
 /* =============================================================
    CONFIGURATION
@@ -596,14 +614,33 @@ function renderFixButtons(){
    ============================================================= */
 function goStage(n){
   document.querySelectorAll('.stage').forEach(function(s,i){s.classList.toggle('active',i===n-1);});
-  [1,2,3].forEach(function(i){
+  [1,2,3,4].forEach(function(i){
     var b=document.getElementById('sb'+i);
     b.classList.remove('active','done');
-    if(i<n) b.classList.add('done');
+    if(i<n && n<4) b.classList.add('done');
     if(i===n) b.classList.add('active');
   });
   if(n===3) initMap();
+  if(n===4) openZipStrut();
   window.scrollTo(0,0);
+}
+
+/* ZIP-STRUT Calculator: staff only, because it shows trade prices.
+   My Day opens this tool with ?team=1 to switch it on. */
+var TEAM = /[?&]team=1(&|$)/.test(location.search);
+if (TEAM) document.getElementById('sb4').hidden = false;
+
+function openZipStrut(){
+  var f=document.getElementById('zs-frame');
+  if(f.src) return;
+  f.onload=function(){
+    try{
+      var d=f.contentWindow.document;
+      var fit=function(){ f.style.height=Math.max(900,d.documentElement.scrollHeight)+'px'; };
+      fit(); new f.contentWindow.ResizeObserver(fit).observe(d.body);
+    }catch(e){ /* different address: keep the fixed height */ }
+  };
+  f.src=f.getAttribute('data-src');
 }
 
 function gateStage2(){
@@ -858,6 +895,14 @@ function buildResults(){
     addBtn.innerHTML = '<i class="ti ti-plus"></i> Add to project';
     (function(pid){ addBtn.onclick = function(){ addToProject(pid); }; })(p.id);
     acts.appendChild(addBtn);
+
+    if (p.id === 'zip-strut' && TEAM) {
+      var sizeBtn = document.createElement('button');
+      sizeBtn.className = 'btn btn-outline';
+      sizeBtn.innerHTML = '<i class="ti ti-columns"></i> Size it';
+      sizeBtn.onclick = function(){ goStage(4); };
+      acts.appendChild(sizeBtn);
+    }
 
     body.appendChild(acts);
     card.appendChild(body);
